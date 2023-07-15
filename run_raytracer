@@ -1,0 +1,1 @@
+./bin/Debug/tracing-volumes 256 256 > image.ppm
