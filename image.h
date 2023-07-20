@@ -16,7 +16,7 @@ public:
     unsigned int get_width();
     unsigned int get_height();
 
-    void colour_pixel(glm::dvec3 colour, unsigned int x, unsigned int y);
+    void colour_pixel(glm::vec3 colour, unsigned int x, unsigned int y);
 
     void print();
 };

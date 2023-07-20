@@ -8,11 +8,15 @@
 #define __SCATTER_H__
 
 class Scatter : public Material {
-public:
     float m_absorbance;
     float m_scatter;
+
+    float simple_phase();
+    float hg_phase(glm::vec4 & light, glm::vec4 & eye, float g);
+
+public:
     Scatter(float absorbance, float scatter);
-    glm::dvec3 effect(Ray & ray, Object & scene, Light & light, hit & info, glm::dvec3 background) override;
+    glm::vec3 effect(Ray & ray, Object & scene, Light & light, hit & info, glm::vec3 background) override;
 };
 
 #endif

@@ -9,7 +9,7 @@
 
 class Material {
 public:
-    virtual glm::dvec3 effect(Ray & ray, Object & scene, Light & light, hit & info, glm::dvec3 background) = 0;
+    virtual glm::vec3 effect(Ray & ray, Object & scene, Light & light, hit & info, glm::vec3 background) = 0;
 };
 
 #endif

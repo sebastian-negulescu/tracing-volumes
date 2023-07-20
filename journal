@@ -19,6 +19,10 @@ July 18
 finished beer's law material
     entire point is to calculate how much light gets absorbed through a homogenous medium
 taking a look at scattering/reflecting light within a medium
-    "in" scattering
+    "out" scattering
 created ray marching algorithm that steps through the ray and accumulates a transmittance each time
     show how the equation breaks down to have an "equivalent" answer
+
+July 19
+finally finished out scattering, took a while to figure out the discrepancies
+moving on to in scattering, will look at the integral provided by PBR textbook and how to break it up

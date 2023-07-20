@@ -8,11 +8,12 @@
 #define __BEER_H__
 
 class Beer : public Material {
-public:
-    glm::dvec3 m_absorptivity;
+    glm::vec3 m_absorptivity;
     float m_concentration;
-    Beer(glm::dvec3 absorptivity, float concentration);
-    glm::dvec3 effect(Ray & ray, Object & scene, Light & light, hit & info, glm::dvec3 background) override;
+
+public:
+    Beer(glm::vec3 absorptivity, float concentration);
+    glm::vec3 effect(Ray & ray, Object & scene, Light & light, hit & info, glm::vec3 background) override;
 };
 
 #endif

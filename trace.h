@@ -16,7 +16,7 @@ class Trace {
 public:
     Trace(Image & image, Sphere & scene, Light & light);
 
-    glm::dvec3 trace_ray(Ray & ray, unsigned int bounces);
+    glm::vec3 trace_ray(Ray & ray, unsigned int bounces);
     void cast_rays();
 };
 

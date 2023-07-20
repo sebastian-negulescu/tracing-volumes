@@ -14,15 +14,12 @@ int main( int argc, char* argv[] ) {
 
     Image image(width, height);
 
-    glm::vec4 position(0.0f, 0.0f, -20.0f, 1.0f);
-    float radius = 10.0f;
+    Light light(glm::vec4(0.0f, 0.0f, -35.0f, 1.0f), glm::vec3(10.0, 5.0, 0.0));
 
-    Light light(glm::vec4(0.0f, 20.0f, -20.0f, 1.0f), glm::dvec3(1.0, 0.5, 0.0));
+    Beer beer_material(glm::vec3(1.0, 1.0, 1.0), 0.5);
+    Scatter scatter_material(0.2, 0.2);
 
-    Beer beer_material(glm::dvec3(1.0, 1.0, 1.0), 0.5);
-    Scatter scatter_material(0.01, 0.1);
-
-    Sphere scene(position, radius, scatter_material);
+    Sphere scene(glm::vec4(0.0f, 0.0f, -20.0f, 1.0f), 10.0f, scatter_material);
 
     Trace raytracer(image, scene, light);
     raytracer.cast_rays();

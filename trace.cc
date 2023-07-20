@@ -6,11 +6,11 @@
 
 Trace::Trace(Image & image, Sphere & scene, Light & light): m_image(image), m_scene(scene), m_light(light) {}
 
-glm::dvec3 Trace::trace_ray(Ray & ray, unsigned int bounces) {
+glm::vec3 Trace::trace_ray(Ray & ray, unsigned int bounces) {
     hit info;
 
     if (bounces == 0) {
-        return glm::dvec3(0.0);
+        return glm::vec3(0.0f);
     }
 
     // std::cerr << ray.get_origin().z << std::endl;
@@ -20,8 +20,8 @@ glm::dvec3 Trace::trace_ray(Ray & ray, unsigned int bounces) {
     }
 
     glm::vec3 normalized_direction = glm::normalize(glm::vec3(ray.get_direction()));
-    double k = (normalized_direction.y + 1.0) / 2.0; 
-    return (1.0 - k) * glm::dvec3(1.0, 0.6, 0.2) + k * glm::dvec3(0.3, 0.3, 1.0);
+    double k = (normalized_direction.y + 1.0f) / 2.0f; 
+    return (1.0f - k) * glm::dvec3(1.0f, 0.6f, 0.2f) + k * glm::dvec3(0.3f, 0.3f, 1.0f);
 }
 
 void Trace::cast_rays() {
@@ -55,7 +55,7 @@ void Trace::cast_rays() {
             );
 
             // cast and colour the ray
-            glm::dvec3 colour = trace_ray(ray, 3);
+            glm::vec3 colour = trace_ray(ray, 3);
             m_image.colour_pixel(colour, x, y);
         }
     }

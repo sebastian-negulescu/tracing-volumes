@@ -5,13 +5,13 @@
 
 class Light {
     glm::vec4 m_position;
-    glm::dvec3 m_colour;
+    glm::vec3 m_colour;
 
 public:
-    Light(glm::vec4 position, glm::dvec3 colour);
+    Light(glm::vec4 position, glm::vec3 colour);
 
     glm::vec4 get_position();
-    glm::dvec3 get_colour();
+    glm::vec3 get_colour();
 };
 
 #endif

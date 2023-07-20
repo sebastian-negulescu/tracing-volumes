@@ -1,11 +1,21 @@
 #include <limits>
 #include <iostream>
+#include <math.h>
 #include "scatter.h"
 
 Scatter::Scatter(float absorbance, float scatter)
     : m_absorbance(absorbance), m_scatter(scatter) {}
 
-glm::dvec3 Scatter::effect(Ray & ray, Object & scene, Light & light, hit & info, glm::dvec3 background) {
+float Scatter::simple_phase() {
+    return 1 / (4 * M_PI);
+}
+
+float Scatter::hg_phase(glm::vec4 & light, glm::vec4 & eye, float g) {
+    float denom = 1 + g * g - 2 * g * glm::dot(eye, light);
+    return simple_phase() * (1 - g * g) / (denom * glm::sqrt(denom));
+}
+
+glm::vec3 Scatter::effect(Ray & ray, Object & scene, Light & light, hit & info, glm::vec3 background) {
     if (!info.exit) {
         return background;
     }
@@ -19,25 +29,31 @@ glm::dvec3 Scatter::effect(Ray & ray, Object & scene, Light & light, hit & info,
     */
 
     float march_t = 0;
-    float delta = 0.01;
+    float delta = 0.1;
+    float density = 0.25;
 
-    double acc_transmittance = 1.0;
-    glm::dvec3 acc_colour(0.0);
+    float acc_transmittance = 1.0;
+    glm::vec3 acc_colour(0.0);
+
+    glm::vec4 eye_dir = glm::normalize(ray.get_direction());
 
     bool inside = true;
     while (inside) {
         glm::vec4 march_point = entry_point + (march_t + (delta / 2)) * ray.get_direction();
-        Ray light_ray(march_point, (light.get_position() - march_point));
+        Ray light_ray(march_point, glm::normalize(light.get_position() - march_point));
 
-        double attenuation = glm::exp(-delta * (m_absorbance + m_scatter));
-
+        double attenuation = glm::exp(-delta * density * (m_absorbance + m_scatter));
         acc_transmittance *= attenuation;
 
         hit light_info;
-        if (scene.intersect(light_ray, 0.0001, std::numeric_limits<float>::infinity(), light_info) && light_info.exit) {
+        if (scene.intersect(light_ray, 0.0001, std::numeric_limits<float>::infinity(), light_info) 
+            && light_info.exit) {
             float light_length = glm::length(light_info.point - march_point);
-            double light_attenuation = glm::exp(-light_length * (m_absorbance + m_scatter));
-            acc_colour += acc_transmittance * light.get_colour() * light_attenuation * double(m_scatter) * double(delta); 
+            float light_attenuation = glm::exp(-light_length * density * (m_absorbance + m_scatter));
+            glm::vec4 light_dir = light_ray.get_direction();
+
+            acc_colour += acc_transmittance * light.get_colour() * light_attenuation 
+                * density * m_scatter * hg_phase(light_dir, eye_dir, 0.8) * delta;
         }
 
         march_t += delta;
