@@ -1,0 +1,24 @@
+July 15
+implemented a basic raytracer that can intersect with spheres
+going to use 1 sphere initially as a way to test the volume functions
+also added a nice background of a sunset so that things look cool
+
+July 15
+added a hit object to keep track of the hit information
+implemented a rudimentary version of beer's law
+need to abstract the material more, as well as figure out how to use its effect, this is not going to work
+also need to define a proper way to apply the brdf of a function, not just do every man for themselves
+
+July 17
+to abstract material more, handle each case 1 by 1
+on initial hit, we determine material's type
+    if it has some transparency, we cast another ray through the object
+    then, we check what it hits next
+
+July 18
+finished beer's law material
+    entire point is to calculate how much light gets absorbed through a homogenous medium
+taking a look at scattering/reflecting light within a medium
+    "in" scattering
+created ray marching algorithm that steps through the ray and accumulates a transmittance each time
+    show how the equation breaks down to have an "equivalent" answer
